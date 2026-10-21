@@ -1,0 +1,9 @@
+{
+  "id": "hello-goodbye",
+  "order": 0,
+  "title": "unit.hello-goodbye.title",
+  "theme": "hello-goodbye",
+  "worldArt": "art/placeholder_world.hello-goodbye.svg",
+  "lessons": [],
+  "ageBands": ["3-5"]
+}

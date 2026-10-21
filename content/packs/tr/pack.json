@@ -1,0 +1,87 @@
+{
+  "lang": "tr",
+  "variety": "tr-TR",
+  "direction": "ltr",
+  "lexemes": {
+    "animal.cat": {
+      "text": "kedi",
+      "audio": {
+        "guide": "audio/tr/placeholder_guide_animal.cat.wav",
+        "cheerleader": "audio/tr/placeholder_cheerleader_animal.cat.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.dog": {
+      "text": "köpek",
+      "audio": {
+        "guide": "audio/tr/placeholder_guide_animal.dog.wav",
+        "cheerleader": "audio/tr/placeholder_cheerleader_animal.dog.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.fish": {
+      "text": "balık",
+      "audio": {
+        "guide": "audio/tr/placeholder_guide_animal.fish.wav",
+        "cheerleader": "audio/tr/placeholder_cheerleader_animal.fish.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.bird": {
+      "text": "kuş",
+      "audio": {
+        "guide": "audio/tr/placeholder_guide_animal.bird.wav",
+        "cheerleader": "audio/tr/placeholder_cheerleader_animal.bird.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.rabbit": {
+      "text": "tavşan",
+      "audio": {
+        "guide": "audio/tr/placeholder_guide_animal.rabbit.wav",
+        "cheerleader": "audio/tr/placeholder_cheerleader_animal.rabbit.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.cow": {
+      "text": "inek",
+      "audio": {
+        "guide": "audio/tr/placeholder_guide_animal.cow.wav",
+        "cheerleader": "audio/tr/placeholder_cheerleader_animal.cow.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.duck": {
+      "text": "ördek",
+      "audio": {
+        "guide": "audio/tr/placeholder_guide_animal.duck.wav",
+        "cheerleader": "audio/tr/placeholder_cheerleader_animal.duck.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.horse": {
+      "text": "at",
+      "audio": {
+        "guide": "audio/tr/placeholder_guide_animal.horse.wav",
+        "cheerleader": "audio/tr/placeholder_cheerleader_animal.horse.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    }
+  }
+}

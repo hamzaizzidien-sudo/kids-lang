@@ -1,0 +1,42 @@
+{
+  "id": "animals-2",
+  "unitId": "animals",
+  "estimatedMinutes": 4,
+  "exercises": [
+    {
+      "id": "listen-1",
+      "template": "listenTap",
+      "targets": ["animal.rabbit"],
+      "distractors": ["animal.cow", "animal.duck"]
+    },
+    {
+      "id": "listen-2",
+      "template": "listenTap",
+      "targets": ["animal.cow"],
+      "distractors": ["animal.rabbit", "animal.horse"]
+    },
+    {
+      "id": "match-1",
+      "template": "dragMatch",
+      "targets": ["animal.rabbit", "animal.cow", "animal.duck"]
+    },
+    {
+      "id": "say-1",
+      "template": "sayIt",
+      "targets": ["animal.rabbit"],
+      "speakers": ["cheerleader"]
+    },
+    {
+      "id": "listen-3",
+      "template": "listenTap",
+      "targets": ["animal.horse"],
+      "distractors": ["animal.duck", "animal.cow"]
+    },
+    {
+      "id": "say-2",
+      "template": "sayIt",
+      "targets": ["animal.horse"],
+      "speakers": ["cheerleader"]
+    }
+  ]
+}

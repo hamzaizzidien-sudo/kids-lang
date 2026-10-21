@@ -1,0 +1,103 @@
+{
+  "lang": "ar",
+  "variety": "ar-MSA",
+  "direction": "rtl",
+  "lexemes": {
+    "animal.cat": {
+      "text": "قِطَّة",
+      "transliteration": "qitta",
+      "gender": "f",
+      "audio": {
+        "guide": "audio/ar/placeholder_guide_animal.cat.wav",
+        "cheerleader": "audio/ar/placeholder_cheerleader_animal.cat.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.dog": {
+      "text": "كَلْب",
+      "transliteration": "kalb",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/ar/placeholder_guide_animal.dog.wav",
+        "cheerleader": "audio/ar/placeholder_cheerleader_animal.dog.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.fish": {
+      "text": "سَمَكَة",
+      "transliteration": "samaka",
+      "gender": "f",
+      "audio": {
+        "guide": "audio/ar/placeholder_guide_animal.fish.wav",
+        "cheerleader": "audio/ar/placeholder_cheerleader_animal.fish.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.bird": {
+      "text": "طَائِر",
+      "transliteration": "ta'ir",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/ar/placeholder_guide_animal.bird.wav",
+        "cheerleader": "audio/ar/placeholder_cheerleader_animal.bird.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.rabbit": {
+      "text": "أَرْنَب",
+      "transliteration": "arnab",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/ar/placeholder_guide_animal.rabbit.wav",
+        "cheerleader": "audio/ar/placeholder_cheerleader_animal.rabbit.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.cow": {
+      "text": "بَقَرَة",
+      "transliteration": "baqara",
+      "gender": "f",
+      "audio": {
+        "guide": "audio/ar/placeholder_guide_animal.cow.wav",
+        "cheerleader": "audio/ar/placeholder_cheerleader_animal.cow.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.duck": {
+      "text": "بَطَّة",
+      "transliteration": "batta",
+      "gender": "f",
+      "audio": {
+        "guide": "audio/ar/placeholder_guide_animal.duck.wav",
+        "cheerleader": "audio/ar/placeholder_cheerleader_animal.duck.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.horse": {
+      "text": "حِصَان",
+      "transliteration": "hisan",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/ar/placeholder_guide_animal.horse.wav",
+        "cheerleader": "audio/ar/placeholder_cheerleader_animal.horse.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    }
+  }
+}

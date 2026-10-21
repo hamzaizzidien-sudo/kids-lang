@@ -1,0 +1,6 @@
+{
+  "id": "animal.cow",
+  "art": "art/placeholder_animal.cow.svg",
+  "sfx": "audio/sfx/placeholder_animal.cow.wav",
+  "tags": ["animal"]
+}

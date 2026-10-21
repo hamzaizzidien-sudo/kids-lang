@@ -1,0 +1,9 @@
+{
+  "id": "colours",
+  "order": 1,
+  "title": "unit.colours.title",
+  "theme": "colours",
+  "worldArt": "art/placeholder_world.colours.svg",
+  "lessons": [],
+  "ageBands": ["3-5"]
+}

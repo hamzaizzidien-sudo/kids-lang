@@ -1,0 +1,9 @@
+{
+  "id": "food-fruit",
+  "order": 5,
+  "title": "unit.food-fruit.title",
+  "theme": "food-fruit",
+  "worldArt": "art/placeholder_world.food-fruit.svg",
+  "lessons": [],
+  "ageBands": ["3-5"]
+}
