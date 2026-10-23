@@ -25,8 +25,14 @@ export default function World() {
   return (
     <Screen>
       <View style={styles.top}>
-        <BigButton onPress={() => router.replace("/")} label={t("world.home")} size={64}>
-          <PaperCharacter character={profile.avatar} mood="wave" size={52} appearOnMount={false} />
+        <BigButton onPress={() => router.dismissTo("/")} label={t("world.home")} size={64}>
+          <PaperCharacter
+            interactive={false}
+            character={profile.avatar}
+            mood="wave"
+            size={52}
+            appearOnMount={false}
+          />
         </BigButton>
         <View style={styles.stickers} accessibilityLabel={`${learning.stickers.length} stickers`}>
           {learning.stickers.slice(-6).map((s, i) => (

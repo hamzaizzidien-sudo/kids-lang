@@ -18,7 +18,7 @@ export default function AddProfile() {
   const save = () => {
     if (!nickname.trim()) return;
     addProfile(nickname, avatar);
-    router.replace("/");
+    router.dismissTo("/");
   };
 
   return (
@@ -48,7 +48,13 @@ export default function AddProfile() {
               size={100}
               color={avatar === id ? colors.gold : colors.card}
             >
-              <PaperCharacter character={id} mood="wave" size={80} appearDelaySec={i * 0.2} />
+              <PaperCharacter
+                interactive={false}
+                character={id}
+                mood="wave"
+                size={80}
+                appearDelaySec={i * 0.2}
+              />
             </BigButton>
           ))}
         </View>

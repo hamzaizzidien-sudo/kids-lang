@@ -9,7 +9,7 @@ import {
   useState,
   type Ref,
 } from "react";
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 import Animated, {
   Easing,
   cancelAnimation,
@@ -58,6 +58,8 @@ export interface PaperCharacterProps {
   /** Unfold when mounted (CLAUDE.md §9: every character on screen uses appear()). */
   appearOnMount?: boolean;
   appearDelaySec?: number;
+  /** Poke for a squash-and-stretch. Turn off when the character sits inside a button. */
+  interactive?: boolean;
   ref?: Ref<CharacterController>;
 }
 
@@ -67,6 +69,7 @@ export function PaperCharacter({
   size = 160,
   appearOnMount = true,
   appearDelaySec = 0,
+  interactive = true,
   ref,
 }: PaperCharacterProps) {
   const { kind, name } = CAST[character];
@@ -230,41 +233,43 @@ export function PaperCharacter({
   const talkMouth =
     talkPhase === "open" ? talkMouths.open : talkPhase ? talkMouths.closedFor(mood.cur) : undefined;
 
-  return (
-    <Pressable
-      onPress={controller.tapReaction}
-      accessibilityRole="image"
-      accessibilityLabel={`${name}, ${mood.cur}`}
-    >
-      <Animated.View style={[{ width: size, height: (size * vh) / vw }, bodyStyle]}>
-        <Svg width="100%" height="100%" viewBox={`${vx} ${vy} ${vw} ${vh}`}>
-          {drawn.map((layer) => {
-            const role = !layer.moods
-              ? "always"
-              : fading.includes(layer)
-                ? "out"
-                : mood.prev && layersFor(layers, mood.prev).includes(layer)
-                  ? "always"
-                  : "in";
-            return (
-              <MoodLayer key={layer.key} role={role} t={moodT} transform={layer.transform}>
-                {layer.shapes.map((shape) =>
-                  talkPhase && shape.mouth ? null : (
-                    <UnfoldShape
-                      key={shape.key}
-                      shape={shape}
-                      progress={stages[shape.stage]}
-                      shading={shading}
-                    />
-                  ),
-                )}
-              </MoodLayer>
-            );
-          })}
-          {talkMouth && <UnfoldShape shape={talkMouth} progress={s4} shading={false} />}
-        </Svg>
-      </Animated.View>
+  const a11y = { accessibilityRole: "image" as const, accessibilityLabel: `${name}, ${mood.cur}` };
+  const body = (
+    <Animated.View style={[{ width: size, height: (size * vh) / vw }, bodyStyle]}>
+      <Svg width="100%" height="100%" viewBox={`${vx} ${vy} ${vw} ${vh}`}>
+        {drawn.map((layer) => {
+          const role = !layer.moods
+            ? "always"
+            : fading.includes(layer)
+              ? "out"
+              : mood.prev && layersFor(layers, mood.prev).includes(layer)
+                ? "always"
+                : "in";
+          return (
+            <MoodLayer key={layer.key} role={role} t={moodT} transform={layer.transform}>
+              {layer.shapes.map((shape) =>
+                talkPhase && shape.mouth ? null : (
+                  <UnfoldShape
+                    key={shape.key}
+                    shape={shape}
+                    progress={stages[shape.stage]}
+                    shading={shading}
+                  />
+                ),
+              )}
+            </MoodLayer>
+          );
+        })}
+        {talkMouth && <UnfoldShape shape={talkMouth} progress={s4} shading={false} />}
+      </Svg>
+    </Animated.View>
+  );
+  return interactive ? (
+    <Pressable onPress={controller.tapReaction} {...a11y}>
+      {body}
     </Pressable>
+  ) : (
+    <View {...a11y}>{body}</View>
   );
 }
 

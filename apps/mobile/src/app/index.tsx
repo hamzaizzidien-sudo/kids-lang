@@ -35,6 +35,7 @@ export default function Profiles() {
             testID={`profile-${p.id}`}
           >
             <PaperCharacter
+              interactive={false}
               character={p.avatar}
               mood="wave"
               size={90}
