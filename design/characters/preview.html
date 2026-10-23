@@ -1,0 +1,2285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folded-paper cast preview</title>
+<style>
+  body { margin: 0; background: #F4F1EA; font-family: system-ui, sans-serif; color: #2B1D16; }
+  main { max-width: 1200px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { margin: 0 0 4px; font-size: 32px; }
+  p { margin: 0 0 20px; color: #5A4A40; line-height: 1.45; }
+  .bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 20px; }
+  button, select { font: inherit; font-size: 16px; padding: 10px 16px; border-radius: 22px; border: 2px solid #2B1D16; background: #fff; cursor: pointer; }
+  button.primary { background: #2BA59B; color: #fff; border-color: #2BA59B; font-weight: 700; }
+  .stage { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+  .cell { background: #fff; box-shadow: 4px 4px 0 #E1DCD0; padding: 12px 8px 4px; text-align: center; }
+  .cell svg { width: 100%; height: auto; display: block; }
+  .cell b { display: block; margin-top: 4px; }
+  h2 { margin: 40px 0 12px; font-size: 22px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Folded-paper cast</h1>
+  <p>Rendered live from <code>characters.json</code>. This page is the reference for how the app should draw the characters and unfold them.</p>
+  <div class="bar">
+    <button class="primary" id="replay" type="button">Replay the unfold</button>
+    <label>Mood
+      <select id="mood"></select>
+    </label>
+  </div>
+  <div class="stage" id="cast"></div>
+  <h2>Every character in every mood</h2>
+  <div class="stage" id="grid"></div>
+</main>
+<script>
+const DATA = {
+ "version": 1,
+ "viewBox": [
+  0,
+  -30,
+  200,
+  260
+ ],
+ "kinds": [
+  "otter",
+  "rabbit",
+  "frog",
+  "turtle",
+  "monkey"
+ ],
+ "moods": [
+  "wave",
+  "listening",
+  "thinking",
+  "celebrating",
+  "oops"
+ ],
+ "armColor": {
+  "otter": "#C99466",
+  "rabbit": "#F6A79B",
+  "frog": "#A8D98A",
+  "turtle": "#C6DDB5",
+  "monkey": "#F0C060"
+ },
+ "unfold": {
+  "stageDelaysSec": {
+   "1": 0.0,
+   "2": 0.22,
+   "3": 0.46,
+   "4": 0.7
+  },
+  "durationSec": 0.55,
+  "easing": [
+   0.25,
+   0.9,
+   0.3,
+   1.2
+  ],
+  "startBrightness": 0.55,
+  "castStaggerSec": 0.45,
+  "folds": {
+   "left": "scaleX 0 to 1, origin = right edge of the shape bounding box (opens like a book page)",
+   "right": "scaleX 0 to 1, origin = left edge of the shape bounding box",
+   "up": "scaleY 0 to 1, origin = bottom edge of the bounding box",
+   "down": "scaleY 0 to 1, origin = top edge of the bounding box",
+   "pop": "scale 0 to 1, origin = centre of the bounding box"
+  }
+ },
+ "layers": [
+  {
+   "when": {
+    "kinds": [
+     "otter"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "ellipse",
+     "attrs": {
+      "cx": "104",
+      "cy": "222",
+      "rx": "70",
+      "ry": "6",
+      "fill": "#C9D2D8"
+     },
+     "fold": "pop",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "136,200 192,186 150,216",
+      "fill": "#B47E52"
+     },
+     "fold": "right",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "192,186 178,208 150,216",
+      "fill": "#82552F"
+     },
+     "fold": "right",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "58,132 100,140 100,214 76,214 50,186",
+      "fill": "#B47E52"
+     },
+     "fold": "left",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,140 142,132 150,186 124,214 100,214",
+      "fill": "#9C6842"
+     },
+     "fold": "right",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "80,152 100,144 100,206 84,194",
+      "fill": "#F6E7CF"
+     },
+     "fold": "left",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,144 120,152 116,194 100,206",
+      "fill": "#E3CDA9"
+     },
+     "fold": "right",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "70,212 92,212 90,222 66,222",
+      "fill": "#82552F"
+     },
+     "fold": "down",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "108,212 130,212 134,222 110,222",
+      "fill": "#6E4627"
+     },
+     "fold": "down",
+     "stage": 3
+    }
+   ]
+  },
+  {
+   "when": {
+    "kinds": [
+     "rabbit"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "ellipse",
+     "attrs": {
+      "cx": "104",
+      "cy": "222",
+      "rx": "66",
+      "ry": "6",
+      "fill": "#E8D3CE"
+     },
+     "fold": "pop",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "140,196 152,186 166,190 158,200",
+      "fill": "#FFF4EA"
+     },
+     "fold": "right",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "140,196 158,200 166,190 170,204 158,214 144,210",
+      "fill": "#EFD9C6"
+     },
+     "fold": "right",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "58,132 100,140 100,214 76,214 50,186",
+      "fill": "#EE8B7E"
+     },
+     "fold": "left",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,140 142,132 150,186 124,214 100,214",
+      "fill": "#D9705F"
+     },
+     "fold": "right",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "80,152 100,144 100,206 84,194",
+      "fill": "#FFF4EA"
+     },
+     "fold": "left",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,144 120,152 116,194 100,206",
+      "fill": "#EFD9C6"
+     },
+     "fold": "right",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "64,208 94,208 96,222 56,222",
+      "fill": "#D9705F"
+     },
+     "fold": "down",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "106,208 136,208 144,222 104,222",
+      "fill": "#B9574A"
+     },
+     "fold": "down",
+     "stage": 3
+    }
+   ]
+  },
+  {
+   "when": {
+    "kinds": [
+     "frog"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "ellipse",
+     "attrs": {
+      "cx": "100",
+      "cy": "222",
+      "rx": "72",
+      "ry": "6",
+      "fill": "#D3DEC8"
+     },
+     "fold": "pop",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "54,134 100,140 100,214 72,214 44,190",
+      "fill": "#8DCB6B"
+     },
+     "fold": "left",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,140 146,134 156,190 128,214 100,214",
+      "fill": "#6FB04E"
+     },
+     "fold": "right",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "78,152 100,144 100,208 82,196",
+      "fill": "#F2F6D2"
+     },
+     "fold": "left",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,144 122,152 118,196 100,208",
+      "fill": "#DCE6A8"
+     },
+     "fold": "right",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "58,210 90,210 94,222 48,222",
+      "fill": "#6FB04E"
+     },
+     "fold": "down",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "110,210 142,210 152,222 106,222",
+      "fill": "#56943A"
+     },
+     "fold": "down",
+     "stage": 3
+    }
+   ]
+  },
+  {
+   "when": {
+    "kinds": [
+     "turtle"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "ellipse",
+     "attrs": {
+      "cx": "100",
+      "cy": "222",
+      "rx": "74",
+      "ry": "6",
+      "fill": "#DAD6EA"
+     },
+     "fold": "pop",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "148,206 166,210 150,216",
+      "fill": "#96B584"
+     },
+     "fold": "right",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "44,138 100,126 100,218 60,218 34,182",
+      "fill": "#8E7FD0"
+     },
+     "fold": "left",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,126 156,138 166,182 140,218 100,218",
+      "fill": "#7262B8"
+     },
+     "fold": "right",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "34,182 44,138 54,141 46,182",
+      "fill": "#A99BE0"
+     },
+     "fold": "left",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "166,182 156,138 146,141 154,182",
+      "fill": "#594B9C"
+     },
+     "fold": "right",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "66,146 100,138 100,212 70,196",
+      "fill": "#F7EBC3"
+     },
+     "fold": "left",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,138 134,146 130,196 100,212",
+      "fill": "#E8D7A0"
+     },
+     "fold": "right",
+     "stage": 1
+    },
+    {
+     "tag": "path",
+     "attrs": {
+      "d": "M68 172 H132 M76 194 H124",
+      "stroke": "#D2BE82",
+      "stroke-width": "1.5"
+     },
+     "fold": "pop",
+     "stage": 2
+    },
+    {
+     "tag": "path",
+     "attrs": {
+      "d": "M98 156 A11 11 0 1 0 110 172 A8 8 0 1 1 98 156 Z",
+      "fill": "#F2C14E"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "66,210 92,210 90,222 62,222",
+      "fill": "#AFCB9C"
+     },
+     "fold": "down",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "108,210 134,210 138,222 110,222",
+      "fill": "#96B584"
+     },
+     "fold": "down",
+     "stage": 3
+    }
+   ]
+  },
+  {
+   "when": {
+    "kinds": [
+     "monkey"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "ellipse",
+     "attrs": {
+      "cx": "104",
+      "cy": "222",
+      "rx": "72",
+      "ry": "6",
+      "fill": "#E6DCC8"
+     },
+     "fold": "pop",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "140,200 178,192 192,160 182,140 162,140 158,154 170,152 176,160 168,184 142,212",
+      "fill": "#C98C2A"
+     },
+     "fold": "right",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "182,140 192,160 178,192 168,184 176,160 170,152",
+      "fill": "#A9711E"
+     },
+     "fold": "right",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "58,132 100,140 100,214 76,214 50,186",
+      "fill": "#E2A93E"
+     },
+     "fold": "left",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,140 142,132 150,186 124,214 100,214",
+      "fill": "#C98C2A"
+     },
+     "fold": "right",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "80,152 100,144 100,206 84,194",
+      "fill": "#FBE3C8"
+     },
+     "fold": "left",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,144 120,152 116,194 100,206",
+      "fill": "#EECBA6"
+     },
+     "fold": "right",
+     "stage": 1
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "60,130 70,127 134,190 126,196",
+      "fill": "#3E7CC8"
+     },
+     "fold": "pop",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "118,184 144,180 148,204 122,208",
+      "fill": "#3E7CC8"
+     },
+     "fold": "down",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "118,184 144,180 140,194 122,196",
+      "fill": "#2E5FA0"
+     },
+     "fold": "down",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "128,194 132,190 136,194 132,198",
+      "fill": "#F2C14E"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "70,212 92,212 90,222 66,222",
+      "fill": "#C98C2A"
+     },
+     "fold": "down",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "108,212 130,212 134,222 110,222",
+      "fill": "#A9711E"
+     },
+     "fold": "down",
+     "stage": 3
+    }
+   ]
+  },
+  {
+   "when": {
+    "moods": [
+     "wave",
+     "listening",
+     "thinking",
+     "oops"
+    ]
+   },
+   "tint": true,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "52,170 62,142 72,150 60,188",
+      "fill": "ARM"
+     },
+     "fold": "down",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "52,170 62,142 72,150 60,188",
+      "fill": "#000000",
+      "fill-opacity": "0.2"
+     },
+     "fold": "down",
+     "stage": 3
+    }
+   ]
+  },
+  {
+   "when": {
+    "moods": [
+     "wave",
+     "celebrating"
+    ]
+   },
+   "tint": true,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "138,132 164,94 176,102 150,142",
+      "fill": "ARM"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "164,94 176,102 174,88",
+      "fill": "#000000",
+      "fill-opacity": "0.22"
+     },
+     "fold": "up",
+     "stage": 3
+    }
+   ]
+  },
+  {
+   "when": {
+    "moods": [
+     "celebrating"
+    ]
+   },
+   "tint": true,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "62,132 36,94 24,102 50,142",
+      "fill": "ARM"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "62,132 36,94 24,102 50,142",
+      "fill": "#000000",
+      "fill-opacity": "0.1"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "36,94 24,102 26,88",
+      "fill": "#000000",
+      "fill-opacity": "0.25"
+     },
+     "fold": "up",
+     "stage": 3
+    }
+   ]
+  },
+  {
+   "when": {
+    "moods": [
+     "listening"
+    ]
+   },
+   "tint": true,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "138,132 150,66 162,68 150,138",
+      "fill": "ARM"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "150,66 162,68 158,54",
+      "fill": "#000000",
+      "fill-opacity": "0.22"
+     },
+     "fold": "up",
+     "stage": 3
+    }
+   ]
+  },
+  {
+   "when": {
+    "moods": [
+     "oops"
+    ]
+   },
+   "tint": true,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "142,130 158,58 170,62 152,136",
+      "fill": "ARM"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "158,58 170,62 160,46",
+      "fill": "#000000",
+      "fill-opacity": "0.22"
+     },
+     "fold": "up",
+     "stage": 3
+    }
+   ]
+  },
+  {
+   "when": {
+    "kinds": [
+     "otter"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "54,124 100,128 100,146 58,140",
+      "fill": "#2BA59B"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,128 146,124 142,140 100,146",
+      "fill": "#1F8279"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "108,142 126,140 120,172",
+      "fill": "#1F8279"
+     },
+     "fold": "down",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "48,58 54,40 62,48",
+      "fill": "#C99466"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "54,40 68,40 72,50 62,48",
+      "fill": "#9C6842"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "152,58 146,40 138,48",
+      "fill": "#B47E52"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "146,40 132,40 128,50 138,48",
+      "fill": "#82552F"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "60,46 100,40 100,78",
+      "fill": "#C99466"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "60,46 100,78 36,84",
+      "fill": "#B47E52"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "36,84 100,78 62,124",
+      "fill": "#C99466"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "62,124 100,78 100,128",
+      "fill": "#B47E52"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,40 140,46 100,78",
+      "fill": "#B47E52"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "140,46 164,84 100,78",
+      "fill": "#9C6842"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "164,84 138,124 100,78",
+      "fill": "#82552F"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,78 138,124 100,128",
+      "fill": "#9C6842"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "68,102 84,90 100,94 100,124 78,118",
+      "fill": "#F6E7CF"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,94 116,90 132,102 122,118 100,124",
+      "fill": "#E3CDA9"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "path",
+     "attrs": {
+      "d": "M68 104 L44 99 M70 111 L46 113 M132 104 L156 99 M130 111 L154 113",
+      "stroke": "#2B1D16",
+      "stroke-width": "2",
+      "stroke-linecap": "round"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "92,94 108,94 100,103",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    }
+   ]
+  },
+  {
+   "when": {
+    "kinds": [
+     "rabbit"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "54,124 100,128 100,146 58,140",
+      "fill": "#F2C14E"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,128 146,124 142,140 100,146",
+      "fill": "#D9A22E"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "92,140 100,132 108,140 100,150",
+      "fill": "#C98E1E"
+     },
+     "fold": "pop",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "56,50 46,-6 64,-24",
+      "fill": "#F6A79B"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "56,50 64,-24 78,44",
+      "fill": "#D9705F"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "60,40 56,0 64,-12 68,38",
+      "fill": "#FFD3CC"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "144,50 154,-6 136,-24",
+      "fill": "#EE8B7E"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "144,50 136,-24 122,44",
+      "fill": "#B9574A"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "140,40 144,0 136,-12 132,38",
+      "fill": "#F7BFB6"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "64,44 100,38 100,80",
+      "fill": "#F6A79B"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "64,44 100,80 40,82",
+      "fill": "#EE8B7E"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "40,82 100,80 64,122",
+      "fill": "#F6A79B"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "64,122 100,80 100,128",
+      "fill": "#EE8B7E"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,38 136,44 100,80",
+      "fill": "#EE8B7E"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "136,44 160,82 100,80",
+      "fill": "#D9705F"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "160,82 136,122 100,80",
+      "fill": "#B9574A"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,80 136,122 100,128",
+      "fill": "#D9705F"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "78,102 90,92 100,96 100,120 84,116",
+      "fill": "#FFF4EA"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,96 110,92 122,102 116,116 100,120",
+      "fill": "#EFD9C6"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "54,98 68,93 66,105",
+      "fill": "#FF7F8F",
+      "fill-opacity": "0.55"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "146,98 132,93 134,105",
+      "fill": "#FF7F8F",
+      "fill-opacity": "0.55"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "path",
+     "attrs": {
+      "d": "M76 104 L56 100 M77 110 L58 112 M124 104 L144 100 M123 110 L142 112",
+      "stroke": "#2B1D16",
+      "stroke-width": "1.8",
+      "stroke-linecap": "round"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "94,94 106,94 100,101",
+      "fill": "#E25A6E"
+     },
+     "fold": "pop",
+     "stage": 4
+    }
+   ]
+  },
+  {
+   "when": {
+    "kinds": [
+     "frog"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "86,124 100,131 86,138",
+      "fill": "#E2574C"
+     },
+     "fold": "left",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "114,124 100,131 114,138",
+      "fill": "#C0443A"
+     },
+     "fold": "right",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "96,131 100,127 104,131 100,135",
+      "fill": "#A8352D"
+     },
+     "fold": "pop",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "52,66 100,62 100,98",
+      "fill": "#A8D98A"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "30,96 52,66 100,98",
+      "fill": "#8DCB6B"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "30,96 100,98 54,126",
+      "fill": "#A8D98A"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "54,126 100,98 100,130",
+      "fill": "#8DCB6B"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,62 148,66 100,98",
+      "fill": "#8DCB6B"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "148,66 170,96 100,98",
+      "fill": "#6FB04E"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "170,96 146,126 100,98",
+      "fill": "#56943A"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,98 146,126 100,130",
+      "fill": "#6FB04E"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "60,80 62,56 80,44 80,82",
+      "fill": "#A8D98A"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "80,44 98,56 100,80 80,82",
+      "fill": "#6FB04E"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,80 102,56 120,44 120,82",
+      "fill": "#8DCB6B"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "120,44 138,56 140,80 120,82",
+      "fill": "#56943A"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "67,70 80,55 93,70 80,85",
+      "fill": "#FFFDF2"
+     },
+     "fold": "pop",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "107,70 120,55 133,70 120,85",
+      "fill": "#FFFDF2"
+     },
+     "fold": "pop",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "40,106 54,101 52,113",
+      "fill": "#FF7F8F",
+      "fill-opacity": "0.5"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "160,106 146,101 148,113",
+      "fill": "#FF7F8F",
+      "fill-opacity": "0.5"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "circle",
+     "attrs": {
+      "cx": "95",
+      "cy": "99",
+      "r": "1.8",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "circle",
+     "attrs": {
+      "cx": "105",
+      "cy": "99",
+      "r": "1.8",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    }
+   ]
+  },
+  {
+   "when": {
+    "kinds": [
+     "frog"
+    ],
+    "transform": "rotate(-14 100 40)"
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "80,46 100,8 100,46",
+      "fill": "#F2884B"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,8 120,46 100,46",
+      "fill": "#D96A2E"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "74,44 126,44 122,53 78,53",
+      "fill": "#B8541F"
+     },
+     "fold": "pop",
+     "stage": 3
+    }
+   ]
+  },
+  {
+   "when": {
+    "kinds": [
+     "turtle"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "64,50 100,42 100,82",
+      "fill": "#C6DDB5"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "64,50 100,82 46,84",
+      "fill": "#AFCB9C"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "46,84 100,82 66,122",
+      "fill": "#C6DDB5"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "66,122 100,82 100,128",
+      "fill": "#AFCB9C"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,42 136,50 100,82",
+      "fill": "#AFCB9C"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "136,50 154,84 100,82",
+      "fill": "#96B584"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "154,84 134,122 100,82",
+      "fill": "#7E9E6C"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,82 134,122 100,128",
+      "fill": "#96B584"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "62,47 102,12 100,47",
+      "fill": "#A99BE0"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "102,12 138,47 100,47",
+      "fill": "#7262B8"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "102,12 148,20 132,30",
+      "fill": "#8E7FD0"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "142,22 148,16 154,22 148,28",
+      "fill": "#F7EBC3"
+     },
+     "fold": "pop",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "58,46 142,46 140,54 60,54",
+      "fill": "#F7EBC3"
+     },
+     "fold": "pop",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "56,98 68,94 66,105",
+      "fill": "#FF7F8F",
+      "fill-opacity": "0.45"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "144,98 132,94 134,105",
+      "fill": "#FF7F8F",
+      "fill-opacity": "0.45"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "circle",
+     "attrs": {
+      "cx": "95",
+      "cy": "98",
+      "r": "1.8",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "circle",
+     "attrs": {
+      "cx": "105",
+      "cy": "98",
+      "r": "1.8",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    }
+   ]
+  },
+  {
+   "when": {
+    "kinds": [
+     "monkey"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "40,72 26,78 24,96 38,104 46,96",
+      "fill": "#E2A93E"
+     },
+     "fold": "left",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "36,80 30,88 36,98 42,92",
+      "fill": "#EECBA6"
+     },
+     "fold": "left",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "160,72 174,78 176,96 162,104 154,96",
+      "fill": "#C98C2A"
+     },
+     "fold": "right",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "164,80 170,88 164,98 158,92",
+      "fill": "#E3B98F"
+     },
+     "fold": "right",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "60,46 100,38 100,78",
+      "fill": "#F0C060"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "60,46 100,78 36,84",
+      "fill": "#E2A93E"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "36,84 100,78 62,124",
+      "fill": "#F0C060"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "62,124 100,78 100,130",
+      "fill": "#E2A93E"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,38 140,46 100,78",
+      "fill": "#E2A93E"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "140,46 164,84 100,78",
+      "fill": "#C98C2A"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "164,84 138,124 100,78",
+      "fill": "#A9711E"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,78 138,124 100,130",
+      "fill": "#C98C2A"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "90,40 98,22 104,40",
+      "fill": "#F0C060"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,30 114,32 106,42",
+      "fill": "#C98C2A"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,60 88,52 70,56 62,72 66,90 76,104 76,116 100,126",
+      "fill": "#FBE3C8"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,60 112,52 130,56 138,72 134,90 124,104 124,116 100,126",
+      "fill": "#EECBA6"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "82,100 100,94 100,122 86,116",
+      "fill": "#FFF0DE"
+     },
+     "fold": "left",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "100,94 118,100 114,116 100,122",
+      "fill": "#F6DCC0"
+     },
+     "fold": "right",
+     "stage": 2
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "60,96 70,93 68,103",
+      "fill": "#FF7F8F",
+      "fill-opacity": "0.5"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "140,96 130,93 132,103",
+      "fill": "#FF7F8F",
+      "fill-opacity": "0.5"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "circle",
+     "attrs": {
+      "cx": "96",
+      "cy": "99",
+      "r": "1.8",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "circle",
+     "attrs": {
+      "cx": "104",
+      "cy": "99",
+      "r": "1.8",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    }
+   ]
+  },
+  {
+   "when": {
+    "moods": [
+     "wave"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "72,70 80,62 88,70 80,80",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "78,66 81,63 83,67",
+      "fill": "#FFFFFF"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "112,70 120,62 128,70 120,80",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "118,66 121,63 123,67",
+      "fill": "#FFFFFF"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "92,107 108,107 100,117",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    }
+   ]
+  },
+  {
+   "when": {
+    "moods": [
+     "listening"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "76,70 84,62 92,70 84,80",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "82,66 85,63 87,67",
+      "fill": "#FFFFFF"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "116,70 124,62 132,70 124,80",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "122,66 125,63 127,67",
+      "fill": "#FFFFFF"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polyline",
+     "attrs": {
+      "points": "94,110 100,114 106,110",
+      "fill": "none",
+      "stroke": "#2B1D16",
+      "stroke-width": "2.5",
+      "stroke-linejoin": "round",
+      "stroke-linecap": "round"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polyline",
+     "attrs": {
+      "points": "174,50 182,60 174,70",
+      "fill": "none",
+      "stroke": "#2BA59B",
+      "stroke-width": "4",
+      "stroke-linejoin": "round",
+      "stroke-linecap": "round"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polyline",
+     "attrs": {
+      "points": "184,40 196,60 184,80",
+      "fill": "none",
+      "stroke": "#2BA59B",
+      "stroke-width": "4",
+      "stroke-linejoin": "round",
+      "stroke-linecap": "round"
+     },
+     "fold": "pop",
+     "stage": 4
+    }
+   ]
+  },
+  {
+   "when": {
+    "moods": [
+     "thinking"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "70,66 78,58 86,66 78,76",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "76,62 79,59 81,63",
+      "fill": "#FFFFFF"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "110,66 118,58 126,66 118,76",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "116,62 119,59 121,63",
+      "fill": "#FFFFFF"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "line",
+     "attrs": {
+      "x1": "94",
+      "y1": "111",
+      "x2": "106",
+      "y2": "111",
+      "stroke": "#2B1D16",
+      "stroke-width": "2.5",
+      "stroke-linecap": "round"
+     },
+     "fold": "pop",
+     "stage": 4
+    }
+   ]
+  },
+  {
+   "when": {
+    "moods": [
+     "thinking"
+    ]
+   },
+   "tint": true,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "142,132 112,122 118,112 150,126",
+      "fill": "ARM"
+     },
+     "fold": "up",
+     "stage": 3
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "112,122 118,112 106,114",
+      "fill": "#000000",
+      "fill-opacity": "0.22"
+     },
+     "fold": "up",
+     "stage": 3
+    }
+   ]
+  },
+  {
+   "when": {
+    "moods": [
+     "thinking"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "164,34 169,39 164,44 159,39",
+      "fill": "#2BA59B"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "182,12 190,20 182,28 174,20",
+      "fill": "#2BA59B"
+     },
+     "fold": "pop",
+     "stage": 4
+    }
+   ]
+  },
+  {
+   "when": {
+    "moods": [
+     "celebrating"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "polyline",
+     "attrs": {
+      "points": "72,74 80,66 88,74",
+      "fill": "none",
+      "stroke": "#2B1D16",
+      "stroke-width": "3.5",
+      "stroke-linejoin": "round",
+      "stroke-linecap": "round"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polyline",
+     "attrs": {
+      "points": "112,74 120,66 128,74",
+      "fill": "none",
+      "stroke": "#2B1D16",
+      "stroke-width": "3.5",
+      "stroke-linejoin": "round",
+      "stroke-linecap": "round"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "90,106 110,106 100,119",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "12,40 22,44 14,54",
+      "fill": "#F2C14E"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "182,30 194,36 182,44",
+      "fill": "#2BA59B"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "10,170 22,165 20,179",
+      "fill": "#2BA59B"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "186,150 194,157 186,164 178,157",
+      "fill": "#F2C14E"
+     },
+     "fold": "pop",
+     "stage": 4
+    }
+   ]
+  },
+  {
+   "when": {
+    "moods": [
+     "oops"
+    ]
+   },
+   "tint": false,
+   "shapes": [
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "69,70 80,58 91,70 80,82",
+      "fill": "#FFFFFF",
+      "stroke": "#2B1D16",
+      "stroke-width": "2.5",
+      "stroke-linejoin": "round"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "77,70 80,67 83,70 80,73",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "109,70 120,58 131,70 120,82",
+      "fill": "#FFFFFF",
+      "stroke": "#2B1D16",
+      "stroke-width": "2.5",
+      "stroke-linejoin": "round"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "117,70 120,67 123,70 120,73",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "96,111 100,107 104,111 100,116",
+      "fill": "#2B1D16"
+     },
+     "fold": "pop",
+     "stage": 4
+    },
+    {
+     "tag": "polygon",
+     "attrs": {
+      "points": "180,64 186,80 180,86 174,80",
+      "fill": "#7FCFE0"
+     },
+     "fold": "pop",
+     "stage": 4
+    }
+   ]
+  }
+ ]
+};
+const NAMES = { otter: 'Nilo · the Guide', rabbit: 'Zuzu · the Cheerleader', frog: 'Kiko · the Silly friend', turtle: 'Mina · the Calm friend', monkey: 'Tamu · the Explorer' };
+const NS = 'http://www.w3.org/2000/svg';
+
+// Draw one character: walk layers in order, keep those whose kind/mood conditions match.
+function draw(kind, mood) {
+  const [x, y, w, h] = DATA.viewBox;
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('viewBox', `${x} ${y} ${w} ${h}`);
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', `${NAMES[kind]}, ${mood}`);
+  const parts = [];
+  for (const layer of DATA.layers) {
+    const when = layer.when;
+    if (when.kinds && !when.kinds.includes(kind)) continue;
+    if (when.moods && !when.moods.includes(mood)) continue;
+    const g = document.createElementNS(NS, 'g');
+    if (when.transform) g.setAttribute('transform', when.transform);
+    for (const s of layer.shapes) {
+      const el = document.createElementNS(NS, s.tag);
+      for (const [k, v] of Object.entries(s.attrs)) el.setAttribute(k, v === 'ARM' ? DATA.armColor[kind] : v);
+      el.dataset.fold = s.fold;
+      el.dataset.stage = s.stage;
+      g.appendChild(el);
+      parts.push(el);
+    }
+    svg.appendChild(g);
+  }
+  return { svg, parts };
+}
+
+// Unfold: each shape scales open from its crease edge, staged body > head > limbs > face.
+function unfold(parts, startDelaySec) {
+  const u = DATA.unfold;
+  const ease = `cubic-bezier(${u.easing.join(',')})`;
+  for (const el of parts) {
+    // Origin = the crease edge of the shape's own bounding box.
+    const origin = { left: '100% 50%', right: '0% 50%', up: '50% 100%', down: '50% 0%', pop: '50% 50%' }[el.dataset.fold];
+    const from = { left: 'scale(0,1)', right: 'scale(0,1)', up: 'scale(1,0)', down: 'scale(1,0)', pop: 'scale(0,0)' }[el.dataset.fold];
+    el.style.transformBox = 'fill-box';
+    el.style.transformOrigin = origin;
+    el.animate(
+      [{ transform: from, filter: `brightness(${u.startBrightness})` }, { transform: 'scale(1,1)', filter: 'brightness(1)' }],
+      { duration: u.durationSec * 1000, delay: (startDelaySec + u.stageDelaysSec[el.dataset.stage]) * 1000, easing: ease, fill: 'both' }
+    );
+  }
+}
+
+const moodSel = document.getElementById('mood');
+for (const m of DATA.moods) moodSel.add(new Option(m, m));
+const castMoods = { otter: 'wave', rabbit: 'celebrating', frog: 'oops', turtle: 'listening', monkey: 'thinking' };
+
+function playCast() {
+  const cast = document.getElementById('cast');
+  cast.innerHTML = '';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  DATA.kinds.forEach((kind, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    const { svg, parts } = draw(kind, moodSel.dataset.touched ? moodSel.value : castMoods[kind]);
+    cell.appendChild(svg);
+    cell.insertAdjacentHTML('beforeend', `<b>${NAMES[kind]}</b>`);
+    cast.appendChild(cell);
+    if (!reduce) unfold(parts, 0.15 + i * DATA.unfold.castStaggerSec);
+  });
+}
+document.getElementById('replay').addEventListener('click', playCast);
+moodSel.addEventListener('change', () => { moodSel.dataset.touched = '1'; playCast(); });
+
+const grid = document.getElementById('grid');
+for (const kind of DATA.kinds) for (const mood of DATA.moods) {
+  const cell = document.createElement('div');
+  cell.className = 'cell';
+  cell.appendChild(draw(kind, mood).svg);
+  cell.insertAdjacentHTML('beforeend', `<b>${kind} · ${mood}</b>`);
+  grid.appendChild(cell);
+}
+playCast();
+</script>
+</body>
+</html>
