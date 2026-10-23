@@ -14,7 +14,7 @@ The full product plan lives in a separate planning doc. This file has everything
 2. **One engine, many languages.** Lessons reference *language-neutral concepts*. Adding a language means adding data only, with zero new screens or components.
 3. **Age band is configuration, not code branches.** Never write `if (age < 5)` in a component. Read capabilities from the age-band profile.
 4. **Never punish a 3–5 year old.** No lives, timers or fail screens. A wrong answer leads to a gentle retry.
-5. **Characters are swappable.** Every character implements the same animation contract (section 6). Use placeholders until the final Rive files arrive.
+5. **Characters are data-driven.** The five folded-paper narrators are drawn from `design/characters/characters.json`, and every one implements the same controller (section 6). Never hand-draw or hard-code a character in a screen.
 6. **Privacy by design.** See section 8. No third-party analytics or ad SDKs, ever.
 7. **Offline-first.** Lesson packs download and play without a network connection.
 
@@ -25,7 +25,7 @@ The full product plan lives in a separate planning doc. This file has everything
 | Layer | Choice |
 | --- | --- |
 | App | React Native + Expo (latest SDK), TypeScript strict, Expo Router |
-| Characters | Rive (`rive-react-native`), behind a `Character` component |
+| Characters | `react-native-svg` + Reanimated, rendering `characters.json` (Rive is optional later, behind the same controller) |
 | Motion | Reanimated, Gesture Handler, React Native Skia for effects |
 | Audio | `expo-audio`, preload every clip a lesson needs before it starts |
 | Speech | On-device speech recognition only. The attempt is rewarded and never blocks progress |
@@ -47,7 +47,8 @@ kids-lang/
   apps/studio/                 (later) web content studio; leave a stub README
   packages/engine/             pure TS: lesson runner, exercise logic, spaced repetition
   packages/content-schema/     Zod schemas + inferred types + validator CLI
-  packages/characters/         character contract, placeholder impl, Rive loader
+  packages/characters/         controller contract, PaperCharacter renderer, unfold animation
+  design/characters/           MASTER ART: characters.json, 25 SVGs, preview.html (read its README)
   packages/ui/                 design tokens, kid-sized components
   content/
     concepts/                  one JSON per concept + art refs
@@ -133,27 +134,49 @@ Fail the build if any of these is true:
 
 ---
 
-## 6. Character contract (`packages/characters`)
+## 6. Characters (`packages/characters`)
 
-The launch cast is four animal narrators. Species and names are still being designed, so use these IDs: `guide`, `cheerleader`, `silly`, `calm`.
+The cast is final: five **folded-paper** animal narrators, faceted like origami. The master art lives in `design/characters/`. **Read `design/characters/README.md` before writing any character code**, and open `preview.html` to see the target look and animation.
+
+| ID | Name | Animal | Role | Used for |
+| --- | --- | --- | --- | --- |
+| `guide` | Nilo | otter | The Guide | Every instruction, pointing at choices |
+| `cheerleader` | Zuzu | rabbit | The Cheerleader | Right answers, rewards, end of lesson |
+| `silly` | Kiko | frog | The Silly friend | Wrong answers (oops and retry), songs |
+| `calm` | Mina | turtle | The Calm friend | Stopping points, goodbye, bedtime mode |
+| `explorer` | Tamu | monkey | The Explorer | World map, introducing each new unit and its words |
+
+`CharacterId` maps to the art's `kind` as follows: guide→otter, cheerleader→rabbit, silly→frog, calm→turtle, explorer→monkey. Keep the mapping in one place.
+
+### Moods
+
+There are five moods, shared by every character: `wave` (hello and instructions), `listening` (the child should tap or speak), `thinking` (waiting for an answer), `celebrating`, and `oops` (gentle retry).
+
+### Controller (screens and engine talk only to this)
 
 ```ts
+type Mood = 'wave' | 'listening' | 'thinking' | 'celebrating' | 'oops';
+
 interface CharacterController {
-  idle(): void
+  appear(delaySec?: number): Promise<void>     // the signature unfold, see below
+  disappear(): Promise<void>                   // fold away (reverse, about 0.6× duration)
+  setMood(m: Mood): void                       // cross-fade the mood layers, 150 ms
   talk(audioRef: string, visemes?: VisemeTrack): Promise<void>
-  mood(m: "happy" | "thinking" | "encouraging" | "celebrating" | "surprised" | "listening" | "sleepy" | "oops"): void
-  celebrate(): Promise<void>
-  oops(): Promise<void>
-  pointAt(dir: "left" | "right" | "up" | "down"): void
-  tapReaction(): void
-  sleep(): void
+  celebrate(): Promise<void>                   // setMood('celebrating') plus a small hop
+  oops(): Promise<void>                        // setMood('oops') plus a small wobble
+  tapReaction(): void                          // quick squash and stretch
 }
 ```
 
-- **Rive implementation:** maps these calls onto state-machine inputs of the same names.
-- **Placeholder implementation:** a coloured rounded blob with eyes, drawn in Skia or SVG, that animates the same states. One colour per character. It must be good enough to playtest with.
-- The engine and screens talk only to `CharacterController`, never to Rive directly.
-- Visemes come from one language-neutral set of about 8–10 mouth shapes, so one rig serves all languages.
+### Rendering and the unfold animation
+
+- Build one `PaperCharacter` component (`react-native-svg` + Reanimated) that renders any `kind` and `mood` from `characters.json`, exactly as described in the README. The data file is the only source of art.
+- **Unfold on appear (required):** each shape scales open from its crease edge, in four stages: body, then head, then ears, arms, tail and hats, then the face. Timings, easing and fold directions are in `characters.json → unfold`. Match `preview.html`.
+- When several characters appear together, stagger them by `unfold.castStaggerSec`.
+- With reduced motion turned on, render the final frame with no animation.
+- Performance: there are about 40 shapes per character. Use shared values per stage, not one animation per shape, if frame rate drops on low-end Android.
+- **Talking:** until viseme timing files exist, alternate between the mood's mouth and the open mouth from the `wave` mood at about 8 Hz while audio plays. Visemes come later from Rhubarb Lip Sync, as one language-neutral set of mouth shapes.
+- Rive is optional later. An animator may rebuild the cast in Rive behind the same `CharacterController`. Nothing outside `packages/characters` may change when that happens.
 
 ---
 
@@ -183,8 +206,9 @@ interface CharacterController {
 - At most 3 choices per screen, and one action.
 - Touch targets of at least 64pt. Tolerate imprecise taps.
 - Every prompt has a large replay-audio button.
-- A wrong answer means the `silly` character does `oops()`, the correct item wiggles, and the child tries again.
-- A session is 5–6 exercises, then a sticker, then a world update, then the `calm` character says goodbye.
+- A wrong answer means the `silly` character (Kiko) does `oops()`, the correct item wiggles, and the child tries again.
+- A session is 5–6 exercises, then a sticker, then a world update, then the `calm` character (Mina) says goodbye.
+- Every character that comes on screen uses `appear()`, so the unfold is the app's signature moment. The `explorer` (Tamu) unfolds on the world map to introduce a new unit.
 - Leaving a lesson takes a hold-to-exit gesture, so accidental taps don't end it.
 - No streak loss is ever shown to a child.
 
@@ -202,8 +226,8 @@ interface CharacterController {
 
 ### Phase 2 (start once Phase 0 is green): Playable prototype
 - [ ] `engine`: session runner, the `listenTap`, `dragMatch` and `sayIt` templates, and spaced repetition. All unit-tested.
-- [ ] `characters`: the contract plus placeholder characters.
-- [ ] `ui`: design tokens with a soft picture-book palette (placeholder until the brand is set), plus big buttons and a replay-audio button.
+- [ ] `characters`: the controller, the `PaperCharacter` renderer for all five characters and five moods, and the unfold, fold-away and mood cross-fade. Add a dev-only "cast gallery" screen that mirrors `preview.html`.
+- [ ] `ui`: design tokens taken from the folded-paper palette: warm paper background `#F4F1EA`, ink `#2B1D16`, teal accent `#2BA59B`, gold `#F2C14E`, and flat "paper card" surfaces with a hard offset shadow. Big buttons and a replay-audio button.
 - [ ] Mobile app screens:
   - child profile picker (local only)
   - language picker
@@ -240,5 +264,5 @@ interface CharacterController {
 - Arabic variety [MSA with harakat]
 - Spanish variety [Spain, es-ES]
 - App name [working name `kids-lang`]
-- Brand mood [soft picture-book]
-- Character species and names [placeholder IDs: guide, cheerleader, silly, calm]
+- Brand mood [**decided:** folded paper, origami facets on warm paper]
+- Characters [**decided:** Nilo, Zuzu, Kiko, Mina and Tamu; names are working names, so keep them in one constants file]

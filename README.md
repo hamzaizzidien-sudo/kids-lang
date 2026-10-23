@@ -20,6 +20,7 @@ pnpm validate-content --allow-draft
 | -------------------------- | ------------------------------------------------------------- |
 | `packages/content-schema/` | Zod schemas, inferred types, and the content validator        |
 | `content/`                 | Concepts, curriculum, language packs, audio, art (git is SoT) |
+| `design/characters/`       | Master character art: `characters.json`, SVGs, `preview.html` |
 | `scripts/`                 | `validate-content`, `make-placeholder-audio`                  |
 | `apps/studio/`             | Stub for the later content studio                             |
 
