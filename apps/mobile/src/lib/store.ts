@@ -1,6 +1,6 @@
 import type { AgeBand, CharacterId, ConceptId } from "@kids-lang/content-schema";
 import type { Progress } from "@kids-lang/engine";
-import Storage from "expo-sqlite/kv-store";
+import { storage } from "./storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -83,7 +83,7 @@ export const useApp = create<AppState>()(
         }));
       },
     }),
-    { name: "kids-lang", version: 1, storage: createJSONStorage(() => Storage) },
+    { name: "kids-lang", version: 1, storage: createJSONStorage(() => storage) },
   ),
 );
 
