@@ -1,9 +1,20 @@
 import js from "@eslint/js";
 import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["**/node_modules/**", "**/coverage/**", "**/dist/**", "**/.turbo/**"] },
+  {
+    ignores: [
+      "**/node_modules/**",
+      "**/coverage/**",
+      "**/dist/**",
+      "**/.turbo/**",
+      "**/.expo/**",
+      "apps/mobile/ios/**",
+      "apps/mobile/android/**",
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -23,5 +34,25 @@ export default tseslint.config(
   {
     files: ["**/test/**/*.ts"],
     rules: { "@typescript-eslint/no-explicit-any": "off" },
+  },
+  {
+    // CLAUDE.md §3: the engine is pure logic, with no React or React Native.
+    files: ["packages/engine/**/*.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: ["react", "react-*", "react/*", "expo", "expo-*", "@expo/*", "@react-native/*"],
+        },
+      ],
+    },
+  },
+  {
+    files: ["**/*.tsx"],
+    plugins: { "react-hooks": reactHooks },
+    rules: {
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+    },
   },
 );

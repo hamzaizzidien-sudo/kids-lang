@@ -24,7 +24,22 @@ pnpm validate-content --allow-draft
 | `scripts/`                 | `validate-content`, `make-placeholder-audio`                  |
 | `apps/studio/`             | Stub for the later content studio                             |
 
-Engine, characters, UI and the Expo app arrive in Phase 2.
+| `packages/engine/` | Pure TS lesson runner, templates, spaced repetition |
+| `packages/characters/` | `PaperCharacter` + `CharacterController`, drawn from the art |
+| `packages/ui/` | Folded-paper tokens and kid-sized components |
+| `apps/mobile/` | Expo app (Expo Router) |
+
+## Running the app on a phone
+
+1. Install **Expo Go** on the phone (App Store / Google Play).
+2. On a computer: `pnpm install`, then `cd apps/mobile && pnpm start`.
+3. Scan the QR code with the phone camera (iOS) or Expo Go (Android). The phone and computer
+   must be on the same network (or use `pnpm start --tunnel`).
+
+The grown-ups area (⚙︎ on the first screen, or "+" to add a player) is behind a parent gate. The
+dev-only cast gallery is linked from the grown-ups area.
+
+After changing anything in `content/`, run `pnpm build-packs` so the app bundles it.
 
 ## Content
 

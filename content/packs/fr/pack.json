@@ -1,6 +1,7 @@
 {
   "lang": "fr",
   "variety": "fr-FR",
+  "name": "Français",
   "direction": "ltr",
   "lexemes": {
     "animal.cat": {

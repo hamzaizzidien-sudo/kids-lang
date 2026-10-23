@@ -1,6 +1,7 @@
 {
   "lang": "ar",
   "variety": "ar-MSA",
+  "name": "العَرَبِيَّة",
   "direction": "rtl",
   "lexemes": {
     "animal.cat": {

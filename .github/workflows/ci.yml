@@ -23,3 +23,4 @@ jobs:
       # All lexemes are still `draft` pending native-speaker review (CLAUDE.md §10).
       # Drop --allow-draft once the shipped packs are approved; release builds must run without it.
       - run: pnpm validate-content --allow-draft
+      - run: pnpm build-packs --check
