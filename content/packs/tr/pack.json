@@ -1,6 +1,7 @@
 {
   "lang": "tr",
   "variety": "tr-TR",
+  "name": "Türkçe",
   "direction": "ltr",
   "lexemes": {
     "animal.cat": {

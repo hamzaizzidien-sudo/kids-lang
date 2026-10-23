@@ -128,6 +128,8 @@ export const LanguagePack = z.strictObject({
   // Open-ended: adding a language is data only.
   lang: z.string().regex(/^[a-z]{2,3}$/, "expected an ISO 639 code"),
   variety: z.string().min(1).optional(),
+  /** The language's own name, e.g. "Español", shown on the language picker. */
+  name: z.string().min(1).optional(),
   direction: z.enum(["ltr", "rtl"]),
   lexemes: z.record(ConceptId, Lexeme),
   overrides: z.strictObject({ lessons: z.array(Lesson).optional() }).optional(),
