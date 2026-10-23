@@ -37,7 +37,7 @@ export default function Reward() {
           zuzu.current?.celebrate(),
           zuzu.current?.talk(ttsRef(t("reward.sticker"), "en-GB", "cheerleader")),
         ]);
-        await wait(600);
+        await wait(MIN_STEP_MS);
         if (!alive) return;
         setPhase("world");
       }
@@ -45,7 +45,7 @@ export default function Reward() {
       await zuzu.current?.talk(
         ttsRef(t("reward.world", { unit: unitName }), "en-GB", "cheerleader"),
       );
-      await wait(600);
+      await wait(MIN_STEP_MS);
       if (!alive) return;
       setPhase("goodbye");
       await wait(1300);
@@ -85,7 +85,7 @@ export default function Reward() {
         <View style={styles.goodbye}>
           <PaperCharacter ref={mina} character="calm" mood="wave" size={190} />
           <BigButton
-            onPress={() => router.replace("/world")}
+            onPress={() => router.dismissTo("/world")}
             label={t("reward.home")}
             size={96}
             color={colors.teal}
@@ -100,6 +100,8 @@ export default function Reward() {
 }
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+// Each reward step stays on screen at least this long, even if speech is quick or unavailable.
+const MIN_STEP_MS = 2200;
 
 const styles = StyleSheet.create({
   world: { paddingHorizontal: space.xl, paddingVertical: space.lg },

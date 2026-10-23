@@ -66,7 +66,7 @@ export default function ParentSettings() {
         )}
       </ScrollView>
       <BigButton
-        onPress={() => router.replace("/")}
+        onPress={() => router.dismissTo("/")}
         label={t("parent.done")}
         size={64}
         color={colors.teal}

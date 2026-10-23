@@ -169,7 +169,7 @@ function LessonPlayer({ lessonId, lang }: { lessonId: string; lang: string }) {
   return (
     <Screen>
       <View style={styles.top}>
-        <HoldToExit onExit={() => router.replace("/world")} label={t("lesson.exit")} />
+        <HoldToExit onExit={() => router.dismissTo("/world")} label={t("lesson.exit")} />
         <View style={styles.dots}>
           {progress.map((done, i) => (
             <View
