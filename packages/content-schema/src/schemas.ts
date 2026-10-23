@@ -8,7 +8,7 @@ export type ConceptId = z.infer<typeof ConceptId>;
 
 const Slug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "expected a kebab-case slug");
 
-export const CharacterId = z.enum(["guide", "cheerleader", "silly", "calm"]);
+export const CharacterId = z.enum(["guide", "cheerleader", "silly", "calm", "explorer"]);
 export type CharacterId = z.infer<typeof CharacterId>;
 
 export const ExerciseTemplate = z.enum([
