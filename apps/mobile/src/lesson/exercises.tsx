@@ -41,7 +41,7 @@ export function ListenTap({
           >
             <ConceptPicture
               conceptId={id}
-              size={104}
+              size={96}
               color={state.highlight === id ? colors.gold : colors.card}
             />
           </Pressable>
@@ -172,7 +172,7 @@ export function DragMatch({
               >
                 <ConceptPicture
                   conceptId={id}
-                  size={100}
+                  size={92}
                   color={matched ? colors.gold : state.highlight === id ? colors.leaf : colors.card}
                 />
               </Pressable>
@@ -248,7 +248,7 @@ function WordToken({
 }
 
 const styles = StyleSheet.create({
-  choices: { flexDirection: "row", justifyContent: "center", gap: space.lg, flexWrap: "wrap" },
+  choices: { flexDirection: "row", justifyContent: "center", gap: space.md, flexWrap: "wrap" },
   drag: { gap: space.xxl },
   sayIt: { alignItems: "center", gap: space.lg },
 });
