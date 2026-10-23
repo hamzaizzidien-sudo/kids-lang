@@ -2,3 +2,4 @@ pnpm-lock.yaml
 coverage
 CLAUDE.md
 design
+apps/mobile/src/content/generated.ts

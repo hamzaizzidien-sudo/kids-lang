@@ -13,7 +13,8 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "validate-content": "tsx scripts/validate-content.ts",
-    "placeholder-audio": "tsx scripts/make-placeholder-audio.ts"
+    "placeholder-audio": "tsx scripts/make-placeholder-audio.ts",
+    "build-packs": "tsx scripts/build-packs.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
