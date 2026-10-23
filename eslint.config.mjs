@@ -24,4 +24,16 @@ export default tseslint.config(
     files: ["**/test/**/*.ts"],
     rules: { "@typescript-eslint/no-explicit-any": "off" },
   },
+  {
+    // CLAUDE.md §3: the engine is pure logic, with no React or React Native.
+    files: ["packages/engine/**/*.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: ["react", "react-*", "react/*", "expo", "expo-*", "@expo/*", "@react-native/*"],
+        },
+      ],
+    },
+  },
 );
