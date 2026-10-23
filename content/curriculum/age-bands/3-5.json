@@ -1,0 +1,18 @@
+{
+  "id": "3-5",
+  "showText": false,
+  "maxChoices": 3,
+  "allowedTemplates": [
+    "listenTap",
+    "whoSaidIt",
+    "dragMatch",
+    "sayIt",
+    "popBubbles",
+    "singAlong",
+    "storyMoment"
+  ],
+  "sessionExercises": [5, 6],
+  "livesEnabled": false,
+  "timersEnabled": false,
+  "rewards": ["stickers", "world"]
+}

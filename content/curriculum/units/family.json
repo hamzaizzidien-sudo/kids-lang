@@ -1,0 +1,9 @@
+{
+  "id": "family",
+  "order": 4,
+  "title": "unit.family.title",
+  "theme": "family",
+  "worldArt": "art/placeholder_world.family.svg",
+  "lessons": [],
+  "ageBands": ["3-5"]
+}

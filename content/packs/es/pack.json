@@ -1,0 +1,103 @@
+{
+  "lang": "es",
+  "variety": "es-ES",
+  "direction": "ltr",
+  "lexemes": {
+    "animal.cat": {
+      "text": "gato",
+      "article": "el",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/es/placeholder_guide_animal.cat.wav",
+        "cheerleader": "audio/es/placeholder_cheerleader_animal.cat.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.dog": {
+      "text": "perro",
+      "article": "el",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/es/placeholder_guide_animal.dog.wav",
+        "cheerleader": "audio/es/placeholder_cheerleader_animal.dog.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.fish": {
+      "text": "pez",
+      "article": "el",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/es/placeholder_guide_animal.fish.wav",
+        "cheerleader": "audio/es/placeholder_cheerleader_animal.fish.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.bird": {
+      "text": "pájaro",
+      "article": "el",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/es/placeholder_guide_animal.bird.wav",
+        "cheerleader": "audio/es/placeholder_cheerleader_animal.bird.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.rabbit": {
+      "text": "conejo",
+      "article": "el",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/es/placeholder_guide_animal.rabbit.wav",
+        "cheerleader": "audio/es/placeholder_cheerleader_animal.rabbit.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.cow": {
+      "text": "vaca",
+      "article": "la",
+      "gender": "f",
+      "audio": {
+        "guide": "audio/es/placeholder_guide_animal.cow.wav",
+        "cheerleader": "audio/es/placeholder_cheerleader_animal.cow.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.duck": {
+      "text": "pato",
+      "article": "el",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/es/placeholder_guide_animal.duck.wav",
+        "cheerleader": "audio/es/placeholder_cheerleader_animal.duck.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.horse": {
+      "text": "caballo",
+      "article": "el",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/es/placeholder_guide_animal.horse.wav",
+        "cheerleader": "audio/es/placeholder_cheerleader_animal.horse.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "clothes",
+  "order": 7,
+  "title": "unit.clothes.title",
+  "theme": "clothes",
+  "worldArt": "art/placeholder_world.clothes.svg",
+  "lessons": [],
+  "ageBands": ["3-5"]
+}

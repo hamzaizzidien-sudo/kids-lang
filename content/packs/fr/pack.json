@@ -1,0 +1,103 @@
+{
+  "lang": "fr",
+  "variety": "fr-FR",
+  "direction": "ltr",
+  "lexemes": {
+    "animal.cat": {
+      "text": "chat",
+      "article": "le",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/fr/placeholder_guide_animal.cat.wav",
+        "cheerleader": "audio/fr/placeholder_cheerleader_animal.cat.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.dog": {
+      "text": "chien",
+      "article": "le",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/fr/placeholder_guide_animal.dog.wav",
+        "cheerleader": "audio/fr/placeholder_cheerleader_animal.dog.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.fish": {
+      "text": "poisson",
+      "article": "le",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/fr/placeholder_guide_animal.fish.wav",
+        "cheerleader": "audio/fr/placeholder_cheerleader_animal.fish.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.bird": {
+      "text": "oiseau",
+      "article": "l'",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/fr/placeholder_guide_animal.bird.wav",
+        "cheerleader": "audio/fr/placeholder_cheerleader_animal.bird.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.rabbit": {
+      "text": "lapin",
+      "article": "le",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/fr/placeholder_guide_animal.rabbit.wav",
+        "cheerleader": "audio/fr/placeholder_cheerleader_animal.rabbit.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.cow": {
+      "text": "vache",
+      "article": "la",
+      "gender": "f",
+      "audio": {
+        "guide": "audio/fr/placeholder_guide_animal.cow.wav",
+        "cheerleader": "audio/fr/placeholder_cheerleader_animal.cow.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.duck": {
+      "text": "canard",
+      "article": "le",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/fr/placeholder_guide_animal.duck.wav",
+        "cheerleader": "audio/fr/placeholder_cheerleader_animal.duck.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    },
+    "animal.horse": {
+      "text": "cheval",
+      "article": "le",
+      "gender": "m",
+      "audio": {
+        "guide": "audio/fr/placeholder_guide_animal.horse.wav",
+        "cheerleader": "audio/fr/placeholder_cheerleader_animal.horse.wav"
+      },
+      "review": {
+        "status": "draft"
+      }
+    }
+  }
+}

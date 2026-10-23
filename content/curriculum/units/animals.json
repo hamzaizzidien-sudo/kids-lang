@@ -1,0 +1,16 @@
+{
+  "id": "animals",
+  "order": 3,
+  "title": "unit.animals.title",
+  "theme": "animals",
+  "worldArt": "art/placeholder_world.animals.svg",
+  "lessons": [
+    {
+      "id": "animals-1"
+    },
+    {
+      "id": "animals-2"
+    }
+  ],
+  "ageBands": ["3-5"]
+}

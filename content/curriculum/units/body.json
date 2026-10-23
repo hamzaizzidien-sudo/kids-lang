@@ -1,0 +1,9 @@
+{
+  "id": "body",
+  "order": 6,
+  "title": "unit.body.title",
+  "theme": "body",
+  "worldArt": "art/placeholder_world.body.svg",
+  "lessons": [],
+  "ageBands": ["3-5"]
+}
